@@ -1,0 +1,33 @@
+{
+    "task": [
+        {
+            "name": "SwitchLanguageKoreanToChinese",
+            "label": "$task.SwitchLanguageKoreanToChinese.label",
+            "entry": "SwitchLanguageKoreanToChineseStart",
+            "description": "$task.SwitchLanguageKoreanToChinese.description",
+            "controller": [
+                "Win32-Window",
+                "Win32-Front",
+                "Wlroots"
+            ],
+            "group": [
+                "other_menu"
+            ]
+        },
+        {
+            "name": "SwitchLanguageChineseToKorean",
+            "label": "$task.SwitchLanguageChineseToKorean.label",
+            "entry": "SwitchLanguageChineseToKoreanStart",
+            "description": "$task.SwitchLanguageChineseToKorean.description",
+            "controller": [
+                "Win32-Window",
+                "Win32-Front",
+                "Wlroots"
+            ],
+            "group": [
+                "other_menu"
+            ]
+        }
+    ],
+    "option": {}
+}

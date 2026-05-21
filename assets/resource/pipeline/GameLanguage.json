@@ -1,0 +1,635 @@
+{
+    "SwitchLanguageKoreanToChineseStart": {
+        "desc": "登录界面：韩文切换为简体中文",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SwitchLanguageLoginAlreadyChinese",
+            "[JumpBack]SceneWaitLoadingExit",
+            "[JumpBack]WaitLoadingIcon",
+            "[JumpBack]WaitLoadingText",
+            "[JumpBack]WaitBlackScreen",
+            "SwitchLanguageLoginOpenSettings"
+        ]
+    },
+    "SwitchLanguageLoginAlreadyChinese": {
+        "desc": "登录界面已是中文 Logo，跳过语言切换",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    330,
+                    240,
+                    600,
+                    180
+                ],
+                "expected": [
+                    "明日方舟：终末地",
+                    "明日方舟终末地",
+                    "终末地"
+                ]
+            }
+        },
+        "action": "DoNothing",
+        "focus": {
+            "Node.Action.Succeeded": "$task.SwitchLanguageKoreanToChinese.focus.already_chinese"
+        }
+    },
+    "SwitchLanguageLoginOpenSettings": {
+        "desc": "登录界面：点击设置按钮",
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    {
+                        "recognition": {
+                            "type": "TemplateMatch",
+                            "param": {
+                                "roi": [
+                                    0,
+                                    -100,
+                                    100,
+                                    100
+                                ],
+                                "template": [
+                                    "SceneManager/LoginExit.png"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "recognition": {
+                            "type": "TemplateMatch",
+                            "param": {
+                                "roi": [
+                                    1070,
+                                    350,
+                                    210,
+                                    90
+                                ],
+                                "template": "GameLanguage/KoreanLoginContinue.png",
+                                "threshold": 0.76
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1250,
+                    82
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                260,
+                80,
+                760,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageClickTopLanguageIconToChinese",
+            "SwitchLanguageOpenLanguageTabToChinese",
+            "SwitchLanguageWaitSettingsToChinese"
+        ],
+        "focus": {
+            "Node.Action.Starting": "$task.SwitchLanguageKoreanToChinese.focus.open_settings"
+        }
+    },
+    "SwitchLanguageChineseToKoreanStart": {
+        "desc": "游戏内：中文切换为韩文",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SwitchLanguageChineseToKoreanOpenEscMenu",
+            "[JumpBack]SceneAnyEnterWorld"
+        ]
+    },
+    "SwitchLanguageChineseToKoreanOpenEscMenu": {
+        "desc": "游戏内：确认在大世界后打开 Esc 菜单",
+        "recognition": "And",
+        "all_of": [
+            "InWorld"
+        ],
+        "action": "ClickKey",
+        "key": 27,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                200,
+                80,
+                900,
+                560
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageEscOpenSettingsByOcr",
+            "SwitchLanguageEscOpenSettingsByPosition"
+        ]
+    },
+    "SwitchLanguageEscOpenSettingsByOcr": {
+        "desc": "Esc 菜单：通过 OCR 点击设置按钮",
+        "recognition": "And",
+        "all_of": [
+            "InESCMenu",
+            {
+                "recognition": {
+                    "type": "OCR",
+                    "param": {
+                        "roi": [
+                            0,
+                            0,
+                            1280,
+                            720
+                        ],
+                        "expected": [
+                            "设置",
+                            "設定",
+                            "(?i)Settings",
+                            "설정"
+                        ]
+                    }
+                }
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                260,
+                80,
+                760,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageClickTopLanguageIconToKorean",
+            "SwitchLanguageOpenLanguageTabToKorean",
+            "SwitchLanguageWaitSettingsToKorean"
+        ],
+        "focus": {
+            "Node.Action.Starting": "$task.SwitchLanguageChineseToKorean.focus.open_settings"
+        }
+    },
+    "SwitchLanguageEscOpenSettingsByPosition": {
+        "desc": "Esc 菜单：通过固定位置点击设置按钮",
+        "recognition": "And",
+        "all_of": [
+            "InESCMenu"
+        ],
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    220,
+                    65
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                260,
+                80,
+                760,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageClickTopLanguageIconToKorean",
+            "SwitchLanguageOpenLanguageTabToKorean",
+            "SwitchLanguageWaitSettingsToKorean"
+        ],
+        "focus": {
+            "Node.Action.Starting": "$task.SwitchLanguageChineseToKorean.focus.open_settings"
+        }
+    },
+    "SwitchLanguageWaitSettingsToChinese": {
+        "desc": "确认已打开设置界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    0,
+                    520,
+                    160
+                ],
+                "expected": [
+                    "设置",
+                    "設定",
+                    "(?i)Settings",
+                    "설정",
+                    "환경설정"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "SwitchLanguageClickTopLanguageIconToChinese",
+            "SwitchLanguageOpenLanguageTabToChinese"
+        ]
+    },
+    "SwitchLanguageWaitSettingsToKorean": {
+        "desc": "确认已打开设置界面",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    0,
+                    520,
+                    160
+                ],
+                "expected": [
+                    "设置",
+                    "設定",
+                    "(?i)Settings",
+                    "설정",
+                    "환경설정"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "SwitchLanguageClickTopLanguageIconToKorean",
+            "SwitchLanguageOpenLanguageTabToKorean"
+        ]
+    },
+    "SwitchLanguageClickTopLanguageIconToChinese": {
+        "desc": "设置界面：点击顶部语言图标",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    667,
+                    28
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                360,
+                100,
+                820,
+                500
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageOpenGameLanguageDropdownToChinese",
+            "SwitchLanguageOpenLanguageSelectorToChinese"
+        ]
+    },
+    "SwitchLanguageClickTopLanguageIconToKorean": {
+        "desc": "设置界面：点击顶部语言图标",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    690,
+                    24
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                360,
+                100,
+                820,
+                500
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageOpenGameLanguageDropdownToKorean",
+            "SwitchLanguageOpenLanguageSelectorToKorean"
+        ]
+    },
+    "SwitchLanguageOpenLanguageTabToChinese": {
+        "desc": "设置界面：打开语言标签页",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    80,
+                    360,
+                    560
+                ],
+                "expected": [
+                    "语言",
+                    "語言",
+                    "(?i)Language",
+                    "언어",
+                    "言語"
+                ]
+            }
+        },
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                360,
+                100,
+                820,
+                500
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageOpenGameLanguageDropdownToChinese",
+            "SwitchLanguageOpenLanguageSelectorToChinese"
+        ]
+    },
+    "SwitchLanguageOpenLanguageTabToKorean": {
+        "desc": "设置界面：打开语言标签页",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    0,
+                    80,
+                    360,
+                    560
+                ],
+                "expected": [
+                    "语言",
+                    "語言",
+                    "(?i)Language",
+                    "언어",
+                    "言語"
+                ]
+            }
+        },
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                360,
+                100,
+                820,
+                500
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageOpenGameLanguageDropdownToKorean",
+            "SwitchLanguageOpenLanguageSelectorToKorean"
+        ]
+    },
+    "SwitchLanguageOpenGameLanguageDropdownToChinese": {
+        "desc": "语言页：点击第一项游戏语言下拉框",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1045,
+                    110
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                880,
+                100,
+                350,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageSelectChinese",
+            "SwitchLanguageScrollToChinese"
+        ]
+    },
+    "SwitchLanguageOpenGameLanguageDropdownToKorean": {
+        "desc": "语言页：点击第一项游戏语言下拉框",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    1045,
+                    110
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                880,
+                100,
+                350,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageSelectKorean",
+            "SwitchLanguageScrollToKorean"
+        ]
+    },
+    "SwitchLanguageOpenLanguageSelectorToChinese": {
+        "desc": "语言标签页：点击语言设置按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    260,
+                    120,
+                    900,
+                    500
+                ],
+                "expected": [
+                    "语言设置",
+                    "語言設定",
+                    "(?i)Language\\s*Settings",
+                    "언어 설정"
+                ]
+            }
+        },
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                360,
+                120,
+                720,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageSelectChinese",
+            "SwitchLanguageScrollToChinese"
+        ]
+    },
+    "SwitchLanguageOpenLanguageSelectorToKorean": {
+        "desc": "语言标签页：点击语言设置按钮",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    260,
+                    120,
+                    900,
+                    500
+                ],
+                "expected": [
+                    "语言设置",
+                    "語言設定",
+                    "(?i)Language\\s*Settings",
+                    "언어 설정"
+                ]
+            }
+        },
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                360,
+                120,
+                720,
+                520
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SwitchLanguageSelectKorean",
+            "SwitchLanguageScrollToKorean"
+        ]
+    },
+    "SwitchLanguageSelectChinese": {
+        "desc": "选择简体中文",
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    340,
+                    120,
+                    760,
+                    520
+                ],
+                "expected": [
+                    "简体中文",
+                    "簡體中文"
+                ]
+            }
+        },
+        "action": "Click",
+        "post_wait_freezes": 300,
+        "next": [
+            "SwitchLanguageConfirm"
+        ]
+    },
+    "SwitchLanguageSelectKorean": {
+        "desc": "选择韩文",
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    900,
+                    120,
+                    350,
+                    330
+                ],
+                "template": "GameLanguage/KoreanOption.png",
+                "threshold": 0.74
+            }
+        },
+        "action": "Click",
+        "post_wait_freezes": 300,
+        "next": [
+            "SwitchLanguageConfirm"
+        ]
+    },
+    "SwitchLanguageScrollToChinese": {
+        "desc": "语言选项：向上查找简体中文",
+        "max_hit": 4,
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    920,
+                    250
+                ],
+                "end": [
+                    920,
+                    575
+                ],
+                "end_hold": 200
+            }
+        },
+        "post_wait_freezes": 300,
+        "next": [
+            "SwitchLanguageSelectChinese",
+            "SwitchLanguageScrollToChinese"
+        ]
+    },
+    "SwitchLanguageScrollToKorean": {
+        "desc": "语言选项：向下查找韩文",
+        "max_hit": 6,
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    1040,
+                    315
+                ],
+                "end": [
+                    1040,
+                    200
+                ],
+                "end_hold": 200
+            }
+        },
+        "post_wait_freezes": 300,
+        "next": [
+            "SwitchLanguageSelectKorean",
+            "SwitchLanguageScrollToKorean"
+        ]
+    },
+    "SwitchLanguageConfirm": {
+        "desc": "确认语言切换",
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    755,
+                    467
+                ]
+            }
+        },
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                260,
+                80,
+                760,
+                520
+            ],
+            "timeout": 4000
+        },
+        "focus": {
+            "Node.Action.Succeeded": "$task.SwitchLanguage.focus.finished"
+        }
+    }
+}
